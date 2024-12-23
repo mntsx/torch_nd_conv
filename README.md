@@ -1,4 +1,4 @@
-# PyTorch ND Convonvolution Repository
+# PyTorch ND Convolution Repository
 
 ## Introduction
 
