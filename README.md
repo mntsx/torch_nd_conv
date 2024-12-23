@@ -1,8 +1,8 @@
-# PyTorch FoldND UnfoldND ConvND Repository
+# PyTorch ND Convonvolution Repository
 
 ## Introduction
 
-Welcome to the **PyTorch FoldND UnfoldND ConvND** repository, a Python-based implementation of n-dimensional convolution operations using PyTorch. This repository introduces a flexible and generalized approach to convolution operations beyond the native capabilities of PyTorch, enabling convolutions in arbitrary dimensions.
+Welcome to the **torch_nd_conv** repository, a Python-based implementation of n-dimensional convolution operations using PyTorch. This repository introduces a flexible and generalized approach to convolution operations beyond the native capabilities of PyTorch, enabling convolutions in arbitrary dimensions.
 
 ### Key Features
 
