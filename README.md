@@ -18,7 +18,7 @@ Welcome to the **torch_nd_conv** repository, a Python-based implementation of n-
 The repository is organized aiming for functional separation. Below is an overview of the primary directories and their respective contents:
 
 ```
-FoldND-UnfoldND-ConvND/
+torch_nd_conv/
 │
 ├── benchmarks/
 │   ├── conv.py
@@ -37,6 +37,7 @@ FoldND-UnfoldND-ConvND/
 │   ├── test_unfold.py
 │   └── __init__.py
 │
+├── __init__.py
 ├── requirements.txt
 └── README.md
 ```
