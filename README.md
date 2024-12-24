@@ -113,11 +113,10 @@ Below is a basic example demonstrating how to utilize the `Conv` module alongsid
 
 ```python
 import torch
-from src.conv import Conv
-from src.fold import Fold, Unfold
+from torch_nd_conv import Conv, Fold, Unfold
 
 # Define input dimensions: (batch_size, channels, depth, height, width)
-input_tensor = torch.randn(8, 3, 30, 64, 64)
+input_tensor = torch.randn(8, 3, 8, 16, 16)
 
 # Initialize FoldND and UnfoldND
 fold = Fold(kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), kernel_position="last")
