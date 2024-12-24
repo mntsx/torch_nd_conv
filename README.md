@@ -126,17 +126,17 @@ input_tensor = torch.randn(8, 3, 8, 16, 16)
 fold = Fold(kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), kernel_position="last")
 unfold = Unfold(kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
 
-# Apply UnfoldND to the input tensor
-unfolded = unfold(input_tensor)
-
 # Initialize ConvND
 conv = Conv(input_channels=3, output_channels=2, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
 
+# Perform unfold
+unfolded = unfold(input_tensor)
+
+# Perform fold
+folded_output = fold(unfolded)
+
 # Perform convolution
 output = conv(unfolded)
-
-# Apply FoldND to reconstruct the output
-folded_output = fold(output)
 ```
 
 ## Installation
