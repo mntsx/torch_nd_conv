@@ -32,12 +32,15 @@ torch_nd_conv/
 │   └── __init__.py
 │
 ├── tests/
+│   ├── pytest.ini
 │   ├── test_conv.py
 │   ├── test_fold.py
 │   ├── test_unfold.py
 │   └── __init__.py
 │
 ├── __init__.py
+├── .gitignore
+├── pytest.ini
 ├── requirements.txt
 └── README.md
 ```
