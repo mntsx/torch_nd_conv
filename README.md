@@ -146,8 +146,8 @@ To get started with the ConvND repository, follow these steps to set up your dev
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/MiguelMontesLorenzo/FoldND-UnfoldND-ConvND.git
-   cd FoldND-UnfoldND-ConvND
+   git clone https://github.com/mntsx/torch_nd_conv.git
+   cd torch_nd_conv
    ```
 
 2. **Create a Virtual Environment**
