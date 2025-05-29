@@ -1,7 +1,13 @@
 # PyTorch ND Convolution Repository
 
-[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mntsx/torch_nd_conv)
+[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Repo Size](https://img.shields.io/github/repo-size/mntsx/torch_nd_conv)](https://github.com/mntsx/torch_nd_conv)
+[![Last Commit](https://img.shields.io/github/last-commit/mntsx/torch_nd_conv)](https://github.com/mntsx/torch_nd_conv/commits/main)
+[![Dependencies](https://img.shields.io/requires/github/mntsx/torch_nd_conv)](https://requires.io/github/mntsx/torch_nd_conv/requirements/)
+
+
+
 
 ## Introduction
 
