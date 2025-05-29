@@ -5,9 +5,6 @@
 [![Repo Size](https://img.shields.io/github/repo-size/mntsx/torch_nd_conv)](https://github.com/mntsx/torch_nd_conv)
 [![Last Commit](https://img.shields.io/github/last-commit/mntsx/torch_nd_conv)](https://github.com/mntsx/torch_nd_conv/commits/main)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/ID_DEL_BADGE/maintainability)](https://codeclimate.com/github/USUARIO/REPO/maintainability)
-
-
 
 ## Introduction
 
