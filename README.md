@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mntsx/torch_nd_conv)
-[![Built with PyTorch](https://img.shields.io/badge/Built%20with-PyTorch-%23EE4C2C.svg?style=flat-square)](https://pytorch.org/)
+[![Built with PyTorch](https://img.shields.io/badge/Built%20with-PyTorch-%23EE4C2C.svg?style=flat)](https://pytorch.org/)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Repo Size](https://img.shields.io/github/repo-size/mntsx/torch_nd_conv)](https://github.com/mntsx/torch_nd_conv)
 [![Last Commit](https://img.shields.io/github/last-commit/mntsx/torch_nd_conv)](https://github.com/mntsx/torch_nd_conv/commits/main)
