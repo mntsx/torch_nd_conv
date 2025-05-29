@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
-[![Built with PyTorch](https://img.shields.io/badge/Built%20with-PyTorch-%23EE4C2C.svg?style=flat)](https://pytorch.org/)
+[![built with PyTorch](https://img.shields.io/badge/built%20with-PyTorch-%23EE4C2C.svg?)](https://pytorch.org/)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Repo Size](https://img.shields.io/github/repo-size/mntsx/torch_nd_conv)](https://github.com/mntsx/torch_nd_conv)
 [![Last Commit](https://img.shields.io/github/last-commit/mntsx/torch_nd_conv)](https://github.com/mntsx/torch_nd_conv/commits/main)
