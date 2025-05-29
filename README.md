@@ -1,5 +1,7 @@
 # PyTorch ND Convolution Repository
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mntsx/torch_nd_conv)
+
 ## Introduction
 
 Welcome to the **torch_nd_conv** repository, a Python-based implementation of n-dimensional convolution operations using PyTorch. This repository introduces a flexible and generalized approach to convolution operations beyond the native capabilities of PyTorch, enabling convolutions in arbitrary dimensions.
