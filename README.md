@@ -1,9 +1,9 @@
 # PyTorch ND Convolution Repository
 
 [![LICENSE: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-yellow.svg)](https://github.com/python)
-[![PyTorch 2.4+](https://img.shields.io/badge/PyTorch-2.4%2B-%23EE4C2C.svg?)](https://github.com/pytorch)
-[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-%23C2A000.svg)](https://github.com/python/cpython)
+[![PyTorch 2.4+](https://img.shields.io/badge/PyTorch-2.4%2B-%23EE4C2C.svg?)](https://github.com/pytorch/pytorch)
+[![black](https://img.shields.io/badge/code%20style-black-202020.svg?style=flat)](https://github.com/psf/black)
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mntsx/torch_nd_conv)
 [![GitHub stars](https://img.shields.io/github/stars/mntsx/torch_nd_conv.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/mntsx/torch_nd_conv/stargazers/)
