@@ -12,7 +12,7 @@
 
 ## Introduction
 
-Welcome to the **torch_nd_conv** repository, a Python-based implementation of n-dimensional convolution operations using PyTorch. This repository introduces a flexible and generalized approach to convolution operations beyond the native capabilities of PyTorch, enabling convolutions in arbitrary dimensions.
+**torch_nd_conv** repository contains a fully Python written implementation of n-dimensional convolution operations using PyTorch.
 
 ### Key Features
 
@@ -21,7 +21,133 @@ Welcome to the **torch_nd_conv** repository, a Python-based implementation of n-
 - **PyTorch Integration**: All classes inherit from `torch.nn.Module`, ensuring seamless integration with existing PyTorch workflows.
 - **Python 3.12+**: Developed using Python version 3.12, ensuring compatibility with the latest Python features and optimizations.
 
-**Note**: PyTorch does not offer built-in modules for n-dimensional convolutions. This repository fills that gap by providing robust and efficient implementations tailored for high-dimensional data processing.
+## Usage Notes
+
+While the modules provided in this repository are built upon PyTorch's architecture and conventions, there are some key differences in their usage compared to PyTorch's native modules. Below are important considerations and guidelines for effectively utilizing the `Fold`, `Unfold`, and `Conv` classes.
+
+### Differences with respect to PyTorch's (`Conv`, `Fold`, `Unfold`) Native Modules
+
+#### 1. **Additional Initialization Parameters for N-Dimensional Support**
+
+Both `Fold` and `Unfold` accept optional arguments that precompute shape-related data during construction, reducing work in each `forward` call:
+
+* **`input_size`** (`Fold`, `Unfold`)
+
+  * **Purpose**: If you know the non-batched spatial dimensions (e.g., `(C, D, H, W)` for a batch of 3D volumes), passing `input_size` lets the module build its index masks and compute dilations/strides once in `__init__`. This avoids repeating those calculations at runtime.
+  * **Usage**: Provide a tuple (or integer) matching the input’s convolutional dimensions. The module checks at `forward` that the incoming tensor’s shape aligns with this size.
+
+* **`output_size`** (`Fold` only)
+
+  * **Purpose**: Validates at construction that your kernel parameters (kernel size, stride, dilation, padding) will fold an unfolded tensor back to the correct shape, catching mismatches early.
+  * **Usage**: Supply the expected output-volume shape (excluding batch), e.g. `(C, D′, H′, W′)`. If the parameters wouldn’t produce that size, `Fold` raises an error in `__init__`.
+
+* **`kernel_position`** (`Fold` only)
+
+  * **Purpose**: Lets you specify whether the kernel dimensions come before or after the convolutional-output axes in the unfolded input:
+
+    * **`"last"`** (default): Input to `forward` is `(..., D_out, H_out, W_out, K_d, K_h, K_w)`.
+    * **`"first"`**: Input to `forward` is `(..., K_d, K_h, K_w, D_out, H_out, W_out)`.
+  * **Usage**: Match it to how your data pipeline organizes those axes so you don’t need extra `permute` calls.
+
+#### 2. **Differences in Input/Output Formats Compared to PyTorch**
+
+Unlike PyTorch’s 2D-only modules, which flatten all kernel dims into one channel axis, `torch_nd_conv` keeps kernel dimensions separate for clarity in N-D operations:
+
+* **`Unfold`**
+
+  * **PyTorch 2D**: Takes `(N, C, H, W)` → `(N, C×K_h×K_w, L)`, collapsing the `K_h×K_w` patch into a single channel and listing `L` sliding-window positions.
+  * **torch\_nd\_conv N-D**: From `(N, C, D, H, W)` with kernel `(K_d, K_h, K_w)`, returns `(N, C, D_out, H_out, W_out, K_d, K_h, K_w)`.
+
+    1. Convolutional output axes `(D_out, H_out, W_out)` remain distinct.
+    2. Kernel dims `(K_d, K_h, K_w)` stay separate, so each patch element’s location is obvious.
+
+* **`Fold`**
+
+  * **PyTorch 2D**: Expects `(N, C×K_h×K_w, L)` → reconstructs `(N, C, H, W)` by summing overlaps.
+  * **torch\_nd\_conv N-D**: Takes `(N, C, D_out, H_out, W_out, K_d, K_h, K_w)` → reconstructs `(N, C, D′, H′, W′)`.
+
+    1. Gathers each of the `K_d×K_h×K_w` elements from their `(D_out, H_out, W_out)` positions.
+    2. Sums them along the reconstruction axes to rebuild the original volume.
+
+By preserving kernel dimensions, `torch_nd_conv` makes it straightforward to generalize beyond 2D. No manual reshaping or axis permutation is needed when moving to 3D, 4D, or higher.
+
+### Example Usage
+
+Below is a basic example demonstrating how to utilize the `Conv` module alongside `Fold` and `Unfold` for a 3D convolution operation:
+
+```python
+import torch
+from torch_nd_conv import Conv, Fold, Unfold
+
+# Define input dimensions: (batch_size, channels, depth, height, width)
+input_tensor = torch.randn(8, 3, 8, 16, 16)
+
+# Initialize FoldND and UnfoldND
+fold = Fold(kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), kernel_position="last")
+unfold = Unfold(kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+
+# Initialize ConvND
+conv = Conv(input_channels=3, output_channels=2, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+
+# Perform unfold
+unfolded = unfold(input_tensor)
+
+# Perform fold
+folded_output = fold(unfolded)
+
+# Perform convolution
+output = conv(unfolded)
+```
+
+## Installation
+
+To get started with the ConvND repository, follow these steps to set up your development environment:
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/mntsx/torch_nd_conv.git
+   cd torch_nd_conv
+   ```
+
+2. **Install Dependencies**
+
+   It's recommended to use a virtual environment to manage dependencies.
+
+   - **Windows:**
+
+     ```bash
+     > py -3.12 -m venv .venv
+     > .venv\Scripts\activate
+     > python -m pip install --upgrade pip
+     ```
+
+   - **macOS/Linux:**
+
+     ```bash
+     > python3.12 venv .venv
+     > source .venv/bin/activate
+     > pip install -r requirements.txt
+     ```
+
+## Running Benchmarks
+
+To evaluate the performance of the custom n-dimensional convolution against PyTorch's native convolution functions, execute the `benchmark.conv` submodule:
+
+```bash
+python -m benchmarks.conv
+```
+
+This will output the execution times and performance ratios for both 2D and 3D convolution operations.
+
+## Testing
+
+Ensure that all modules are functioning correctly by running the test suites using `pytest`:
+
+```bash
+pytest .
+```
+
 
 ## File Structure
 
@@ -82,141 +208,3 @@ This directory houses test suites that ensure the correctness and reliability of
 - **`test_unfold.py`**: Comprises tests for the `Unfold` class, validating the unfolding process.
 - **`__init__.py`**: Initializes the `tests` package, enabling straightforward test discovery and execution.
 
-## Usage Notes
-
-While the modules provided in this repository are built upon PyTorch's architecture and conventions, there are some key differences in their usage compared to PyTorch's native modules. Below are important considerations and guidelines for effectively utilizing the `Fold`, `Unfold`, and `Conv` classes.
-
-### Differences from PyTorch's Native Modules
-
-#### 1. **N-Dimensional Operations**
-
-- **PyTorch Limitation**: PyTorch's native `torch.nn.Fold` and `torch.nn.Unfold` are limited to 2D operations.
-- **Conv ND Advantage**: The `Fold` and `Unfold` classes extend these operations to n-dimensions, allowing for more versatile and generalized convolution processes.
-
-#### 2. **Class Initialization Parameters**
-
-Both `Fold` and `Unfold` offer additional parameters to handle n-dimensional data effectively:
-
-- **`kernel_position` (for `Fold`)**:
-  - **`"last"` (default)**: Expects input dimensions in the order `(*batch_dims, *conv_output_dims, *kernel_dims)`.
-  - **`"first"`**: Expects input dimensions in the order `(*batch_dims, *kernel_dims, *conv_output_dims)`.
-  - **Purpose**: Provides flexibility in how input dimensions are arranged, catering to different data formats and convolution configurations.
-
-- **`input_size` and `output_size`**:
-  - **Purpose**: Allow pre-calculations during initialization, potentially accelerating the `forward` method by avoiding repetitive computations.
-  - **Usage**: When provided, these parameters should correspond to the non-batched input size (excluding batch dimensions). This ensures consistency and correctness in the unfolding and folding processes.
-
-#### 3. **Input and Output Formats**
-
-- **`Fold` and `Unfold` Output Structures**:
-  - **`Fold`**: Reconstructs the original input from its unfolded representation, maintaining separate dimensions for kernel elements.
-  - **`Unfold`**: Unfolds the input data into a shape that retains kernel dimensions separately, as opposed to collapsing them into a single dimension in PyTorch's native `Unfold`.
-
-- **Comparison with PyTorch**:
-  - **PyTorch's `Fold`**: Typically handles input in the shape `(N, C * kernel_height * kernel_width, L)`, where `L` is the number of sliding windows per convolution input.
-  - **Conv's `Fold`**: Maintains separate kernel dimensions, resulting in an output shape of `(*batch_dims, *conv_output_dims, *kernel_dims)` for more intuitive handling in n-dimensional spaces.
-
-#### 4. **Validation and Error Handling**
-
-- **Utility Functions**: The `utils.py` module provides functions such as `param_check`, `fold_input_check`, and `unfold_input_check` to validate hyperparameters and input sizes, ensuring that the convolution operations are configured correctly.
-- **Error Messages**: Comprehensive error handling is implemented to notify users of mismatches in input sizes or incorrect parameter configurations, enhancing the robustness of the modules.
-
-### Example Usage
-
-Below is a basic example demonstrating how to utilize the `Conv` module alongside `Fold` and `Unfold` for a 3D convolution operation:
-
-```python
-import torch
-from torch_nd_conv import Conv, Fold, Unfold
-
-# Define input dimensions: (batch_size, channels, depth, height, width)
-input_tensor = torch.randn(8, 3, 8, 16, 16)
-
-# Initialize FoldND and UnfoldND
-fold = Fold(kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), kernel_position="last")
-unfold = Unfold(kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
-
-# Initialize ConvND
-conv = Conv(input_channels=3, output_channels=2, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
-
-# Perform unfold
-unfolded = unfold(input_tensor)
-
-# Perform fold
-folded_output = fold(unfolded)
-
-# Perform convolution
-output = conv(unfolded)
-```
-
-## Installation
-
-To get started with the ConvND repository, follow these steps to set up your development environment:
-
-1. **Clone the Repository**
-
-   ```bash
-   git clone https://github.com/mntsx/torch_nd_conv.git
-   cd torch_nd_conv
-   ```
-
-2. **Create a Virtual Environment**
-
-   It's recommended to use a virtual environment to manage dependencies.
-
-   - **Windows:**
-
-     ```bash
-     py -3.12 -m venv .venv
-     ```
-
-   - **macOS/Linux:**
-
-     ```bash
-     python3.12 venv .venv
-     ```
-
-3. **Activate the Virtual Environment**
-
-   - **Windows:**
-
-     ```bash
-     .venv\Scripts\activate
-     ```
-
-   - **macOS/Linux:**
-
-     ```bash
-     source .venv/bin/activate
-     ```
-
-4. **Install Dependencies**
-
-   ```bash
-   python -m pip install --upgrade pip
-   pip install -r requirements.txt
-   ```
-
-## Running Benchmarks
-
-To evaluate the performance of the custom n-dimensional convolution against PyTorch's native convolution functions, execute the `benchmark.conv` submodule:
-
-```bash
-python -m benchmarks.conv
-```
-
-This will output the execution times and performance ratios for both 2D and 3D convolution operations.
-
-## Testing
-
-Ensure that all modules are functioning correctly by running the test suites using `pytest`:
-
-```bash
-pytest .
-```
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request with your enhancements or bug fixes. Ensure that all new features are accompanied by appropriate tests.
-
----
