@@ -12,14 +12,14 @@
 
 ## Introduction
 
-**torch_nd_conv** repository contains a fully Python written implementation of n-dimensional convolution operations using PyTorch.
+**torch_nd_conv** contains a fully Python written implementation of n-dimensional convolution operation using **PyTorch** as its only dependency.
 
 ### Key Features
 
-- **Arbitrary-Dimensional Convolution (`Conv`)**: Implements convolution operations in any number of dimensions, extending beyond PyTorch's native 2D and 3D convolutions.
-- **Auxiliary Classes (`Fold` and `Unfold`)**: Provides `Fold` and `Unfold` classes necessary for the implementation and manipulation of n-dimensional convolutions.
-- **PyTorch Integration**: All classes inherit from `torch.nn.Module`, ensuring seamless integration with existing PyTorch workflows.
-- **Python 3.12+**: Developed using Python version 3.12, ensuring compatibility with the latest Python features and optimizations.
+- **Arbitrary Dimension Convolution**: implements convolution (`Conv`) operation for input spaces any number of dimensions.
+- **Auxiliary Classes**: provides `Fold` and `Unfold` classes - instrumental for the manipulation of N-dimensional feature spaces.
+- **PyTorch Integration**: all classes inherit from `torch.nn.Module` - ensuring seamless integration with existing PyTorch workflows.
+- **Python 3.12+**: developed using Python version 3.12 - taking advantage of some its new features and optimizations.
 
 ## Usage Notes
 
