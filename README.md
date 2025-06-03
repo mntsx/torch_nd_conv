@@ -107,7 +107,6 @@ To get started with the ConvND repository, follow these steps to set up your dev
 
    ```bash
    git clone https://github.com/mntsx/torch_nd_conv.git
-   cd torch_nd_conv
    ```
 
 2. **Install Dependencies**
@@ -117,17 +116,21 @@ To get started with the ConvND repository, follow these steps to set up your dev
    - **Windows:**
 
      ```bash
-     > py -3.12 -m venv .venv
-     > .venv\Scripts\activate
-     > python -m pip install --upgrade pip
+     py -3.12 -m venv .venv
+     .venv\Scripts\activate
+     python -m pip install --upgrade pip
+     cd torch_nd_conv
+     python -m pip install -r requirements.txt
      ```
 
    - **macOS/Linux:**
 
      ```bash
-     > python3.12 venv .venv
-     > source .venv/bin/activate
-     > pip install -r requirements.txt
+     python3.12 venv .venv
+     source .venv/bin/activate
+     python3 -m pip install --upgrade pip
+     cd torch_nd_conv
+     python3 -m pip install -r requirements.txt
      ```
 
 ## Running Benchmarks
@@ -135,6 +138,7 @@ To get started with the ConvND repository, follow these steps to set up your dev
 To evaluate the performance of the custom n-dimensional convolution against PyTorch's native convolution functions, execute the `benchmark.conv` submodule:
 
 ```bash
+cd torch_nd_conv
 python -m benchmarks.conv
 ```
 
@@ -145,6 +149,7 @@ This will output the execution times and performance ratios for both 2D and 3D c
 Ensure that all modules are functioning correctly by running the test suites using `pytest`:
 
 ```bash
+cd torch_nd_conv
 pytest .
 ```
 
